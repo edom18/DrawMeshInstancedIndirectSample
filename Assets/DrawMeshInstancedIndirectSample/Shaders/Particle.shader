@@ -17,7 +17,6 @@
             {
                 float3 basePosition;
                 float3 position;
-                float3 normal;
                 float4 color;
                 float scale;
             };

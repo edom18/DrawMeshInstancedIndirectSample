@@ -22,7 +22,6 @@ public class ParticleSystem : MonoBehaviour
     {
         public Vector3 basePosition;
         public Vector3 position;
-        public Vector3 normal;
         public Vector4 color;
         public float scale;
     }
@@ -31,15 +30,10 @@ public class ParticleSystem : MonoBehaviour
     {
         _kernelId = _computeShader.FindKernel("ParticleMain");
 
-        _particleBuffer = new ComputeBuffer(_count, Marshal.SizeOf(typeof(Particle)));
+        List<Vector3> vertices = new List<Vector3>();
+        _targetMeshFilter.mesh.GetVertices(vertices);
 
         Particle[] particles = new Particle[_count];
-
-        List<Vector3> vertices = new List<Vector3>();
-        List<Vector3> normals = new List<Vector3>();
-
-        _targetMeshFilter.mesh.GetVertices(vertices);
-        _targetMeshFilter.mesh.GetNormals(normals);
 
         for (int i = 0; i < _count; i++)
         {
@@ -47,12 +41,12 @@ public class ParticleSystem : MonoBehaviour
             {
                 basePosition = vertices[i % vertices.Count],
                 position = vertices[i % vertices.Count] + Random.insideUnitSphere * 10f,
-                normal = normals[i % normals.Count],
                 color = _color,
                 scale = Random.Range(0.01f, 0.02f),
             };
         }
 
+        _particleBuffer = new ComputeBuffer(_count, Marshal.SizeOf(typeof(Particle)));
         _particleBuffer.SetData(particles);
 
         _particleMat.SetBuffer("_ParticleBuffer", _particleBuffer);
