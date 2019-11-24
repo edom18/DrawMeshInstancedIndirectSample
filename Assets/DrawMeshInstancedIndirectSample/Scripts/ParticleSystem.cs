@@ -19,6 +19,7 @@ public class ParticleSystem : MonoBehaviour
 
     private struct Particle
     {
+        public Vector3 basePosition;
         public Vector3 position;
         public Vector3 normal;
         public Vector4 color;
@@ -39,18 +40,21 @@ public class ParticleSystem : MonoBehaviour
         _targetMeshFilter.mesh.GetVertices(vertices);
         _targetMeshFilter.mesh.GetNormals(normals);
 
-        for (int i = 0; i < vertices.Count; i++)
+        for (int i = 0; i < _count; i++)
         {
             particles[i] = new Particle
             {
-                position = vertices[i],
-                normal = normals[i],
+                basePosition = vertices[i % vertices.Count],
+                position = vertices[i % vertices.Count],
+                normal = normals[i % normals.Count],
                 color = Random.ColorHSV(),
-                scale = Random.Range(0.01f, 0.05f),
+                scale = Random.Range(0.01f, 0.02f),
             };
         }
 
         _particleBuffer.SetData(particles);
+
+        _particleMat.SetBuffer("_ParticleBuffer", _particleBuffer);
 
         int subMeshIndex = 0;
 
@@ -68,9 +72,7 @@ public class ParticleSystem : MonoBehaviour
     {
         _computeShader.SetFloat("_DeltaTime", Time.deltaTime);
         _computeShader.SetBuffer(_kernelId, "_ParticleBuffer", _particleBuffer);
-        _computeShader.Dispatch(_kernelId, 8, 1, 1);
-
-        _particleMat.SetBuffer("_ParticleBuffer", _particleBuffer);
+        _computeShader.Dispatch(_kernelId, _count / 8, 1, 1);
 
         Graphics.DrawMeshInstancedIndirect(_particleMesh, 0, _particleMat, new Bounds(Vector3.zero, Vector3.one * 32f), _argBuffer);
     }
