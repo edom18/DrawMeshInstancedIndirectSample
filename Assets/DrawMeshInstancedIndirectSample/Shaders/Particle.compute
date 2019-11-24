@@ -1,0 +1,24 @@
+﻿#pragma kernel ParticleMain
+
+struct Particle
+{
+    float3 position;
+    float3 normal;
+    float4 color;
+    float scale;
+};
+
+RWStructuredBuffer<Particle> _ParticleBuffer;
+
+float _DeltaTime;
+
+[numthreads(8, 8, 1)]
+void ParticleMain(uint3 id : SV_DispatchThreadID)
+{
+    const int index = id.x;
+
+    Particle p = _ParticleBuffer[index];
+    p.position += p.normal * _DeltaTime * 0.1;
+
+    _ParticleBuffer[index] = p;
+}
