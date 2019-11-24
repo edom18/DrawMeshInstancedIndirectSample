@@ -19,7 +19,7 @@ void ParticleMain(uint3 id : SV_DispatchThreadID)
     const int index = id.x;
 
     Particle p = _ParticleBuffer[index];
-    p.position += p.normal * _DeltaTime * 0.3;
+    p.position += (p.basePosition - p.position) * _DeltaTime;
 
     _ParticleBuffer[index] = p;
 }

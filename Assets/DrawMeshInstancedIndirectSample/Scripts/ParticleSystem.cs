@@ -45,7 +45,7 @@ public class ParticleSystem : MonoBehaviour
             particles[i] = new Particle
             {
                 basePosition = vertices[i % vertices.Count],
-                position = vertices[i % vertices.Count],
+                position = vertices[i % vertices.Count] + Random.insideUnitSphere * 10f,
                 normal = normals[i % normals.Count],
                 color = Random.ColorHSV(),
                 scale = Random.Range(0.01f, 0.02f),
