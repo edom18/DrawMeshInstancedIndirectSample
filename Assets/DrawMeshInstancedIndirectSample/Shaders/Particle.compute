@@ -13,7 +13,7 @@ RWStructuredBuffer<Particle> _ParticleBuffer;
 
 float _DeltaTime;
 
-[numthreads(8, 8, 1)]
+[numthreads(8, 1, 1)]
 void ParticleMain(uint3 id : SV_DispatchThreadID)
 {
     const int index = id.x;
