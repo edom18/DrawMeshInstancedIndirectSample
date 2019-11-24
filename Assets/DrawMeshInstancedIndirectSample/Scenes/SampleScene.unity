@@ -299,6 +299,7 @@ MonoBehaviour:
   _particleMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   _targetMeshFilter: {fileID: 836528100}
   _particleMat: {fileID: 2100000, guid: d21429c0bc7249044afebc669561cae2, type: 2}
+  _color: {r: 0, g: 0.69761467, b: 1, a: 1}
 --- !u!23 &836528099
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -306,7 +307,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 836528097}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
