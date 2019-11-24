@@ -10,6 +10,7 @@ public class ParticleSystem : MonoBehaviour
     [SerializeField] private Mesh _particleMesh = null;
     [SerializeField] private MeshFilter _targetMeshFilter = null;
     [SerializeField] private Material _particleMat = null;
+    [SerializeField] private Color _color = Color.blue;
 
     private ComputeBuffer _particleBuffer = null;
     private ComputeBuffer _argBuffer = null;
@@ -47,7 +48,7 @@ public class ParticleSystem : MonoBehaviour
                 basePosition = vertices[i % vertices.Count],
                 position = vertices[i % vertices.Count] + Random.insideUnitSphere * 10f,
                 normal = normals[i % normals.Count],
-                color = Random.ColorHSV(),
+                color = _color,
                 scale = Random.Range(0.01f, 0.02f),
             };
         }
