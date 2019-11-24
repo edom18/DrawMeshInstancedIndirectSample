@@ -5,7 +5,7 @@ It provide that how to setup compute shader and relative buffers and how to use 
 
 This sample will show up animation like at below.
 
-![demo](./images/demo.gif)
+![demo](demo.gif)
 
 ---------------------------------------------------------
 
