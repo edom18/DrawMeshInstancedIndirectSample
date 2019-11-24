@@ -49,6 +49,8 @@ public class ParticleSystem : MonoBehaviour
         _particleBuffer = new ComputeBuffer(_count, Marshal.SizeOf(typeof(Particle)));
         _particleBuffer.SetData(particles);
 
+        _computeShader.SetBuffer(_kernelId, "_ParticleBuffer", _particleBuffer);
+
         _particleMat.SetBuffer("_ParticleBuffer", _particleBuffer);
 
         int subMeshIndex = 0;
@@ -66,7 +68,6 @@ public class ParticleSystem : MonoBehaviour
     private void Update()
     {
         _computeShader.SetFloat("_DeltaTime", Time.deltaTime);
-        _computeShader.SetBuffer(_kernelId, "_ParticleBuffer", _particleBuffer);
         _computeShader.Dispatch(_kernelId, _count / 8, 1, 1);
 
         Graphics.DrawMeshInstancedIndirect(_particleMesh, 0, _particleMat, new Bounds(Vector3.zero, Vector3.one * 32f), _argBuffer);
